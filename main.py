@@ -1,5 +1,5 @@
 import pandas
-from lib import student_t_test, pearson_chi_squared_test
+from tests import student_t_test, pearson_chi_squared_test
 
 # load the dataset
 data = pandas.read_csv('netflix_userbase.csv')

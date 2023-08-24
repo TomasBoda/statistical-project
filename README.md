@@ -1,20 +1,25 @@
 # Netflix Userbase Statistics
-Tomáš Boďa
+by [Tomáš Boďa](https://github.com/TomasBoda)
 
 ## Dataset
 The dataset was download from [kaggle.com](https://www.kaggle.com/datasets/arnavsmayan/netflix-userbase-dataset?resource=download) and is used only for educational purposes.
 
+## External Libraries
+The project uses two external libraries:
+- [Pandas](https://pandas.pydata.org/) for reading `CSV` files
+- [Scipy](https://scipy.org/) for calculating the critical values of the Student's T-test and the Pearson's Chi-Squared Test
+
 ## Abstract
 The aim of this statistical project is to analyze the Netflix global userbase and gain insights into relationships between different user data to find out correlations and associations between different factors of Netflix usage among its consumers.
 
-First and foremost, we will look at the age of Netflix users in association of their primary device they watch Netflix on. Since smart TVs have become popular in the last few years, we will try to analyze whether there are any differerences in the average age of people watching Netflix on a smart TV in comparison to people watching Netflix on a laptop.
+First and foremost, we will look at the age of Netflix users in association of their primary device they stream Netflix on. Since smart TVs have become popular in the last decade, we will try to analyze whether there are any differerences in the average age of people streaming Netflix on smart TVs in comparison to people streaming Netflix on laptops.
 
-Secondly, we will try to find out whether there is any correlation between the country of origin of individual users and the device they primarily watch Netflix on.
-
-The dataset consists of 2500 users, each provided with data such as their gender, age, country of origin, primary device, subscfiption type, plan duration, join date or last payment.
+Secondly, we will try to find out whether there is any correlation between the country of origin of individual users and the device they primarily stream Netflix on.
 
 # Dataset Analysis
-Since we are performing two statistical analyses with specific data from this dataset, let's look at what kind of values does this data provide.
+The dataset consists of 2500 users, each provided with data such as the users' gender, age, country of origin, primary device, subscription type, plan duration and many more.
+
+Since we are performing two statistical analyses with only a specific subset of data from this dataset, let's look at what kind of values does this dataset provide and what we will need to extract.
 
 Firstly, we load the dataset into our Python project.
 ```python
@@ -32,7 +37,7 @@ print('Average Age:', sum(int(age) for age in ages) / len(ages))
 # Maximum Age: 51
 # Average Age: 38.7956
 ```
-Then, let's find out what countries the Netflix users are from.
+Moreover, let's find out what countries the Netflix users are from.
 ```python
 countries = {}
 
@@ -55,7 +60,7 @@ for country, count in countries.items():
 # Spain: 451
 # Italy: 183
 ```
-Lastly, let's analyze the different kind of devices Netflix users use.
+Lastly, let's analyze the different kinds of devices Netflix users use for streaming.
 ```python
 devices = {}
 for device in data['Device']:
@@ -73,11 +78,9 @@ for device, count in devices.items():
 ```
 
 ## Student's T-test
-Firstly, we will perform the Student's T-test to gain insights into age differences between users who watch Netflix on smart TVs in comparison to people watching Netflix on laptops.
+Firstly, we will perform the Student's T-test to gain insights into the age differences between users who stream Netflix on smart TVs in comparison to people streaming Netflix on laptops.
 
 As the null hypothesis (H0) we will consider the following: **There is NO significant age difference between Smart TV and Laptop user**. As the alternative hypothesis (H1), we will consider the exact opposite: **There is a SIGNIFICANT age difference between Smart TV and Laptop users**.
-
-For this test, we will not use any external library except for calculating the **critical T-value** for our hypothesis testing.
 
 Initially, we will extract our desired values from the dataset.
 ```python
@@ -87,7 +90,7 @@ smart_tv_users = data[data['Device'] == 'Smart TV']
 laptop_ages = laptop_users['Age']
 smart_tv_ages = smart_tv_users['Age']
 ```
-Then, we will calculate the **mean** and **variance** values together with the **pooled variance**.
+Then, we will calculate the **mean** and **variance** values together with the **pooled variance** value.
 ```python
 # means
 mean_smart_tv = sum(smart_tv_ages) / len(smart_tv_ages)
@@ -100,7 +103,7 @@ variance_laptop = sum((x - mean_laptop) ** 2 for x in laptop_ages) / (len(laptop
 # pooled variance
 pooled_variance = ((len(smart_tv_ages) - 1) * variance_smart_tv + (len(laptop_ages) - 1) * variance_laptop) / (len(smart_tv_ages) + len(laptop_ages) - 2)
 ```
-Finally, we will calculate the **degrees of freedom**, set our **significance level (alpha)** to `0.05` (5%) and calculate the `critical T-value` together with our most important **T-statistic**.
+Finally, we will calculate the **degrees of freedom**, set our **significance level (alpha)** to `0.05` (5%) and calculate the `critical T-value` together with our most important value - the **T-statistic**.
 ```python
 degrees_of_freedom = len(smart_tv_ages) + len(laptop_ages) - 2
 significance_level = 0.05
@@ -121,27 +124,23 @@ After running the Student's T-test, we can see that our **null hypothesis has no
 
 The **degrees of freedom** value is set to `1244`, the **critical T-value** is calculated to be `1.65` and the **T-statistic** is `0.84`. Since the **T-statistic** is far less than the **critical T-value**, we can conclude that the null hypothesis has not been rejected and therefore, **there is NO significant age difference between smart TV and laptop users**.
 
-Based on our results, we can conclude that the older generation is quite progressive as far as technology is concerned and there are no major differences between generations in terms of device they watch Netflix on.
+Based on our results, we can conclude that the older generation is quite progressive as far as technology is concerned and there are no major differences between generations in terms of device they stream Netflix on.
 
 ## Pearson's Chi-squared Test
-Secondly, we will perform the Pearson's Chi-squared Test on categorical data to check if there is any correlation between the viewer's country of origin and the device they usually stream Netflix on. This could give us insights into preferred devices by country.
+Secondly, we will perform the Pearson's Chi-squared Test on categorical data to check if there is any correlation between the viewers' country of origin and the device they usually stream Netflix on. This could give us insights into preferred devices by country.
 
 As the null hypothesis (H0) we will consider the following: **There is NO relationship between country and device**. As our alternative hypothesis (H1), we will consider the exact opposite: **There is a RELATIONSHIP between country and device**.
 
-For this test, we will not use any external library except for calculating the **critical value** for our hypothesis testing.
-
-Again, we will firstly extract our desired values from the dataset and calculate the total entries and finally check whether we have the same amount of device and country entries.
+Again, we will firstly extract the desired values from the dataset and check whether we have the same amount of device and country entries.
 ```python
 countries = data['Country']
 devices = data['Device']
 
-total_entries = len(countries)
-
 assert len(countries) == len(devices), 'The number of countries doesn\'t match the number of devices'
 ```
-For the Pearson's Chi-Squared Test, we need to pre-calculate two things: the observed frequencies and the expected frequencies. Based on the differences of these values, we will analyse the correlation between countries and devices.
+For the Pearson's Chi-Squared Test, we need to pre-calculate two things: the **observed frequencies** and the **expected frequencies**. Based on the differences of these values, we will analyse the correlation between countries and devices.
 
-First, we will calculate the observed frequencies. For each unique country, we will calculate the total number for each device type.
+First, we will calculate the observed frequencies. For each unique country, we will calculate the total number of each device type.
 ```python
 # observed frequencies
 observed_frequencies = {}
@@ -156,7 +155,7 @@ for i in range(total_entries):
         observed_frequencies[country][device] = 0
     observed_frequencies[country][device] += 1
 ```
-Next, we need to calculate the expected frequencies, which represent expected values as if our two tested attributes are totally independent with no correlation whatsoever.
+Next, we need to calculate the expected frequencies, which represent expected values with no correlation whatsoever.
 ```python
 # expected frequencies preparation
 row_totals = {}
@@ -190,7 +189,7 @@ for country, devices in observed_frequencies.items():
         expected_count = expected_frequencies[country][device]
         chi_squared += ((frequency - expected_count) ** 2) / expected_count
 ```
-The last thing that remains is to set our **significance level (alpha)**, calculate the **degrees of freedom** and get the **critical value**.
+The last thing that remains is to define the **significance level (alpha)**, calculate the **degrees of freedom** and get the **critical value**.
 ```python
 degrees_of_freedom = (len(row_totals) - 1) * (len(column_totals) - 1)
 significance_level = 0.05
@@ -207,8 +206,6 @@ else:
 ### Results
 After running the Pearson's Chi-squared Test, we can see that our **null hypothesis has not been rejected**.
 
-The **degrees of freedom** value is set to `27`, the **critical value** is calculated to be `40.11` and the **chi-squared** value is `32.42`. Since the **chi-squared** value is less than the **critical value**, we can conclude that the null hypothesis has not been rejected and therefore, **There is no major relationship or correlation between the country of origin and streaming devices**.
+The **degrees of freedom** value is set to `27`, the **critical value** is calculated to be `40.11` and the **chi-squared** value is `32.42`. Since the **chi-squared** value is less than the **critical value**, we can conclude that the null hypothesis has not been rejected and therefore, **There is NO major relationship or correlation between the country of origin and streaming devices**.
 
-Based on our results, we can conclude that the
-
-older generation is quite progressive as far as technology is concerned and there are no major differences between generations in terms of device they watch Netflix on.
+by [Tomáš Boďa](https://github.com/TomasBoda)
