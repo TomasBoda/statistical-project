@@ -1,6 +1,9 @@
 # Netflix Userbase Statistics
 Tomáš Boďa
 
+## Dataset
+The dataset was download from [kaggle.com](https://www.kaggle.com/datasets/arnavsmayan/netflix-userbase-dataset?resource=download) and is used only for educational purposes.
+
 ## Abstract
 The aim of this statistical project is to analyze the Netflix global userbase and gain insights into relationships between different user data to find out correlations and associations between different factors of Netflix usage among its consumers.
 
@@ -205,3 +208,7 @@ else:
 After running the Pearson's Chi-squared Test, we can see that our **null hypothesis has not been rejected**.
 
 The **degrees of freedom** value is set to `27`, the **critical value** is calculated to be `40.11` and the **chi-squared** value is `32.42`. Since the **chi-squared** value is less than the **critical value**, we can conclude that the null hypothesis has not been rejected and therefore, **There is no major relationship or correlation between the country of origin and streaming devices**.
+
+Based on our results, we can conclude that the
+
+older generation is quite progressive as far as technology is concerned and there are no major differences between generations in terms of device they watch Netflix on.
