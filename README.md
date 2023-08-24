@@ -17,7 +17,7 @@ First and foremost, we will look at the age of Netflix users in association of t
 Secondly, we will try to find out whether there is any correlation between the country of origin of individual users and the device they primarily stream Netflix on.
 
 ## Dataset Analysis
-The dataset consists of 2500 users, each provided with data such as the users' gender, age, country of origin, primary device, subscription type, plan duration and many more.
+The dataset consists of 2500 users, each provided with data such as gender, age, country of origin, primary device, subscription type, plan duration and many more.
 
 Since we are performing two statistical analyses with only a specific subset of data from this dataset, let's look at what kind of values does this dataset provide and what we will need to extract.
 
