@@ -37,7 +37,7 @@ def student_t_test(data):
     print('Significance level:', significance_level)
     print('Degrees of Freedom:', degrees_of_freedom)
     print('Critical T-value:', critical_t_value)
-    print('T-statistic:', abs(t_statistic))
+    print('T-statistic:', t_statistic)
     print()
 
     # results
