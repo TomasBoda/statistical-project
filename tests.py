@@ -42,9 +42,9 @@ def student_t_test(data):
 
     # results
     if abs(t_statistic) > critical_t_value:
-        print("Null Hypothesis is REJECTED:", alt_hypothesis)
+        print('Null Hypothesis is REJECTED:', alt_hypothesis)
     else:
-        print("Null hypothesis is NOT REJECTED:", null_hypothesis)
+        print('Null hypothesis is NOT REJECTED:', null_hypothesis)
 
     print('-------------------------------------------')
 

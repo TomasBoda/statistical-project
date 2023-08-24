@@ -114,9 +114,9 @@ t_statistic = (mean_smart_tv - mean_laptop) / (pooled_variance * ((1 / len(smart
 Now we have everything we need to either **reject** or **not reject** our null hypothesis.
 ```python
 if abs(t_statistic) > critical_t_value:
-    print("Null Hypothesis is REJECTED:", alt_hypothesis)
+    print('Null Hypothesis is REJECTED:', alt_hypothesis)
 else:
-    print("Null hypothesis is NOT REJECTED:", null_hypothesis)
+    print('Null hypothesis is NOT REJECTED:', null_hypothesis)
 ```
 
 ### Results
